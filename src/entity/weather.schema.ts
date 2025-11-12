@@ -6,6 +6,8 @@ export type WeatherDocument = Weather & Document;
 @Schema({timestamps:true})
 export class Weather{
 
+    _id: string;
+
 
     @Prop({required:true})
     city: string;
@@ -15,6 +17,15 @@ export class Weather{
 
     @Prop({required:true})
     lon: number;
+
+    @Prop({ type: Object })
+    lastWeather?: {
+    temperature: number;
+    humidity: number;
+    description: string;
+    updatedAt: Date;
+  };
+
 
     @Prop()
     createdAt?: Date;
