@@ -1,7 +1,7 @@
 import { Get, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Weather, WeatherDocument } from 'src/entity/weather.schema';
+import { Weather, WeatherDocument } from '../entity/weather.schema';
 import { CreateWeatherDto } from './dto/create-weather.dto';
 import { UpdateWeatherDto } from './dto/update-weather.dto';
 import { error } from 'console';
@@ -86,7 +86,8 @@ export class WeatherService {
         };
     }
 
-    private emitWeatherUpdate(weather: Weather, report: any) {
+    private emitWeatherUpdate(weather: Weather, report: {temperature: number; humidity: number; pressure:number})
+     {
         this.weatherClient.emit('weather_updates', {
             weatherId: weather._id as string,
             weatherName: weather.city,
@@ -94,7 +95,8 @@ export class WeatherService {
         });
     }
 
-    private buildWeatherResponse(weather: Weather, report: any): weatherResponse {
+    private buildWeatherResponse(weather: Weather, report: {temperature: number; humidity: number; pressure:number}
+    ): weatherResponse {
         return {
             _id: weather._id,
             city: weather.city,
