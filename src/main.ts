@@ -18,6 +18,24 @@ async function bootstrap() {
     },
   });
 
+
+
+  app.connectMicroservice({
+  transport: Transport.KAFKA,
+  options: {
+    client: {
+      brokers: ['localhost:9092'],
+    },
+    consumer: {
+      groupId: 'weather-consumer-group',
+    },
+  },
+});
+
+
+
+
+
   await app.startAllMicroservices();
    console.log('RabbitMQ Microservice connected successfully!');
   

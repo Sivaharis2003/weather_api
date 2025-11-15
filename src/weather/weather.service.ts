@@ -8,6 +8,7 @@ import { error } from 'console';
 import axios from 'axios';
 import { ClientProxy } from '@nestjs/microservices';
 
+
 type ApiResponse = {
     main:{
         temp: number;
@@ -42,7 +43,8 @@ export class WeatherService {
     private readonly apiKey = process.env.OPENWEATHER_API_KEY;
 
     constructor(@InjectModel(Weather.name) private weatherModel: Model<WeatherDocument>,
-                @Inject('WEATHER_SERVICE') private readonly weatherClient:ClientProxy, ){}
+                @Inject('WEATHER_SERVICE') private readonly weatherClient:ClientProxy, 
+                @Inject('WEATHER_KAFKA') private readonly kafkaClient: ClientProxy,){}
 
     async create(data: CreateWeatherDto): Promise<Weather>{
         const newWeather = new this.weatherModel(data);
@@ -93,6 +95,16 @@ export class WeatherService {
             weatherName: weather.city,
             ...report,
         });
+
+        this.kafkaClient.emit('weather_updates', {
+            weatherId: weather._id.toString(),
+            weatherName: weather.city,
+            temperature: report.temperature,
+            humidity: report.humidity,
+            pressure: report.pressure,
+        });
+
+
     }
 
     private buildWeatherResponse(weather: Weather, report: {temperature: number; humidity: number; pressure:number}

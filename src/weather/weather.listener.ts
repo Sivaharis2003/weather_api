@@ -13,7 +13,7 @@ export class weatherListener {
 
   @EventPattern('weather_updates')
   async handleWeatherUpdate(@Payload() data: WeatherUpdateDto) {
-    this.logger.log(` Received weather update for ${data.weatherName}`);
+    this.logger.log(`RabbitMQ Received weather update for ${data.weatherName}`);
 
     await this.weatherModel.findByIdAndUpdate(data.weatherId, {
       lastWeather: {
@@ -24,6 +24,6 @@ export class weatherListener {
       },
     });
 
-    this.logger.log(`Weather data saved for ${data.weatherName}`);
+    this.logger.log(`RabbitMQ Weather data saved for ${data.weatherName}`);
   }
 }
