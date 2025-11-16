@@ -5,7 +5,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import axios from 'axios';
 import { Weather } from '../entity/weather.schema';
 
-jest.mock('axios'); // mock axios
+jest.mock('axios'); 
 
 describe('WeatherService', () => {
   let service: WeatherService;

@@ -22,7 +22,6 @@ export class Weather{
     lastWeather?: {
     temperature: number;
     humidity: number;
-    description: string;
     updatedAt: Date;
   };
 

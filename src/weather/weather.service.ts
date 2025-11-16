@@ -97,11 +97,14 @@ export class WeatherService {
         });
 
         this.kafkaClient.emit('weather_updates', {
-            weatherId: weather._id.toString(),
-            weatherName: weather.city,
-            temperature: report.temperature,
-            humidity: report.humidity,
-            pressure: report.pressure,
+            key: weather._id.toString(),
+            value:{
+                weatherId: weather._id.toString(),
+                weatherName: weather.city,
+                temperature: report.temperature,
+                humidity: report.humidity,
+                pressure: report.pressure,
+             }
         });
 
 
